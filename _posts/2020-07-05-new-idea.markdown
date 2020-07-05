@@ -1,0 +1,17 @@
+---
+layout:     post
+title:      "about battlefields V"
+subtitle:   " \"Hello World, Hello Blog\""
+date:       2020-07-05 22:11:00 +0800
+author:     "ahrievil"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 生活
+    - 娱乐
+---
+
+> “yes, game ”
+
+
+battlefields V 已经停止更新了，对玩家而言，真的对ea和dice无话可说。鲜为人知的二战，基本上没有二战的关键战役，最让人失望的可能是游戏中只有四个国家，而且连最应该被提及的苏联都没有包括在内，武器方面也是没有包括的很全面，说半成品真的是恰当了  

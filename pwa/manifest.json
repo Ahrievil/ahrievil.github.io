@@ -1,0 +1,19 @@
+{
+  "name": "Ahrievil Blog",
+  "short_name": "Ahrievil Blog",
+  "description": "About an engineer & designer who loves web.",
+  "icons": [{
+    "src": "icons/128.jpg",
+    "sizes": "128x128",
+    "type": "image/png"
+  }, {
+    "src": "icons/512.jpg",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#fff",
+  "theme_color": "#000",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
