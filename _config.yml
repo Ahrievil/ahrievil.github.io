@@ -82,7 +82,7 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: 'GTM-NL8966X'            # Format: UA-xxxxxx-xx
+ga_track_id: 'UA-171600214-1'            # Format: UA-xxxxxx-xx
 ga_domain: ahrievil.github.io         # domain
 
 
