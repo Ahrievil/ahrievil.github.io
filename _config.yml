@@ -6,7 +6,7 @@ header-img: img/home-bg.jpg
 email: singleitdog@qq.com
 description: "个人介绍/杂谈"
 keyword: "ahrievil, java"
-url: "http://ahrievil.github.io"              # your host, for absolute URL
+url: "http://blog.ahrievil.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 # Publish posts or collection documents with a future date.
@@ -67,7 +67,7 @@ gitalk:
   enable: true    #是否开启Gitalk评论
   clientID: db5ee90e20a6e1b37e20                            #生成的clientID
   clientSecret: 2efaf05cb36f93abb89ee3813154b3fe850ad5fa    #生成的clientSecret
-  repo: ahrievil.github.io    #仓库名称
+  repo: blog.ahrievil.com    #仓库名称
   owner: ahrievil    #github用户名
   admin: ahrievil
   distractionFreeMode: true #是否启用类似FB的阴影遮罩
@@ -82,8 +82,8 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: 'UA-171600214-1'            # Format: UA-xxxxxx-xx
-ga_domain: ahrievil.github.io         # domain
+ga_track_id: 'UA-171600214-2'            # Format: UA-xxxxxx-xx
+ga_domain: blog.ahrievil.com         # domain
 
 
 
