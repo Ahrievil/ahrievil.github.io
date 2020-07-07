@@ -1,0 +1,98 @@
+---
+layout:     post
+title:      "how to use Linux in Windows for agile software development<br><br>如何在Windows系统上使用Linux进行轻量级软件开发"
+subtitle:   " \"Linux in Windows\""
+date:       2020-07-07 18:52:00 +0800
+author:     "ahrievil"
+header-img: "img/in-post/2020/07-07-linux-and-Windows.png"
+catalog: true
+tags:
+    - 编程
+    - Windows
+    - Linux
+    - 子系统
+    
+---
+
+## 前序
+
+[跳过废话，直接看技术实现 ](#core)
+
+[跳过废话，直接看如何在Windows使用Linux子系统快速开发 ](#use)
+ 
+最近在搭建自己的主页时苦于没有Linux开发环境而抱怨，幸亏早先了解到Windows已经做出了“Linux子系统”，方才想去尝试一下
+    
+那就让我们来了解一下这个子系统到底是什么，以及怎么样才能使用Linux在Windows 10进行轻量级开发吧
+
+## Windows的子系统问世
+
+2016年中旬，Windows开发团队公布了Windows系统上ubuntu的bash。
+什么概念呢，就是说我们可以在Windows上面输入一些Linux指令并直接运行了
+    
+想到这里我就激动的拍打起我旁边购买于13年的开机风扇狂转不停得了哮喘的联想笔记本电脑了
+    
+"老朋友，就陪我再折腾一下吧"👀。
+
+<p id = "core"></p>
+
+## 子系统（Windows Subsystem for Linux简称WSL）运行原理
+
+WSL是使本机Linux ELF64二进制文件能够在Windows上运行的组件的集合
+
+![原理图](/img/in-post/2020/07-05-LXSS-diagram-1024x472.jpg)
+
+我们知道计算机程序运行分为内核态和用户态两个神奇的我地方，刚刚我们讲的可以在Windows上面运行Linux的命令窗口就是在用户态运行的Bash.exe，它长这样👇
+
+![Bash](/img/in-post/2020/07-07-linux-in-windows.png)
+
+其实上图是从Windows的cmd进入到Linux的bash的过程
+
+其中有几个概念
+
+* LXSS Manager Server: Linux子系统驱动程序的代理，也是入口Bash.exe真正调用的地方（所以真的不是直接操作Linux啦，是障眼法，
+因为没有直接去调用相应的Linux二进制执行文件），而且Bash.exe是可以在电脑上面开很多个的，所以说你每开一个命令行窗口就会有相应的LXSS Manager服务一对一绑定，
+维护数据结构和LX线程信息，传递bash.exe下每一条Linux指令
+* LXCode/LXSS: 通过翻译Linux系统调用来模拟Linux内核的Pico提供程序驱动程序（lxss.sys，lxcore.sys），因为Windows子系统已经有很长的历史了，所以这部分的功能已经下沉到了操作系统内核
+* Pico进程: 托管未修改的用户模式Linux（例如/ bin / bash）的Pico进程，里面包含有Linux系统二进制文件（所以说接下来的内核调用还是使用Windows NT内核）
+
+所以我们总结出子系统执行的过程
+
+* bash.exe和LXSS Manager Server管理着用户输入的Linux命令，可以支持用户开启多个命令窗口进行交互
+* LXSS Manager Server通过ioctl指令调用LXCode/LXSS，并传递给红色的pico process运行Linux二进制文件
+* pico使用lxss.sys和lxcore.sys驱动程序将Linux系统调用转换为NT API并模拟Linux内核调用，这里就能很明显的感受到其实还是在使用NT API在做系统调用和Linux没有关系
+
+
+## 系统调用
+
+上面已经知道了，其实Linux子系统实际还是用到了Windows NT的内核API，因为操作系统内核比如Windows NT和Linux内核的API有些其实是不一样的（一样就见鬼了），
+所以在内核级别调用时还是要进行适配，比如Linux的fork() syscall，NT就没有与之对应的等效调用，所以在Linux子系统在执行fork()命令时
+lxcore.sys会执行一些初始工作来为复制进程做准备，最终使用到的是NT的API
+
+## 文件和资源占用
+
+Windows系统和Linux文件的对应关系举例：  
+f:/development tools/projects/ahrievil-blog(Windows中)  
+/mnt/f/development tools/projects/ahrievil-blog(Linux子系统中)  
+
+之前在做网页开发时，在bash下绑定一个端口用于网页开发结果可以在Windows操作系统桌面上直接用网页就能访问，这让我感到很诧异，但是看到到这里读者应该能想到其中的缘由
+因为同处于一个操作系统层级，调用相同的syscall，所以资源也是共用的；
+
+是我意识还停留在虚拟系机的层面上想到的，没错，我当时就以为Microsoft真的使用Hyper-V去做一个虚拟系统出来，其实不是这样的。。。
+
+<p id = "use"></p>
+
+## 如何在Windows上面使用Linux
+
+到了大家都关心的话题，我这里说的开发一般指轻度开发，因为bash命令行的局限性很大，不能完全替代真正的unix操作系统带来的便捷、安全和稳定，但是对于写代码和简单的调试应该是足够了
+
+1.开启开发者模式 开始->设置->开发者选项->开发者选项，勾选开发人员模式
+![程序和功能](/img/in-post/2020/07-07-settings.png)  
+2.在桌面菜单栏找搜索或者在设置中搜索 "程序和功能"->点击"启用或关闭Windows功能"->选择启用"适用于Linux的Windows子系统"，点击确定后需要重启电脑  
+![程序和功能](/img/in-post/2020/07-07-search.png)  
+3.在Microsoft Store中搜索Ubuntu，并安装  
+4.安装完成后可通过cmd命令行输入bash进入ubuntu系统  
+5.可以选择搭配前段时间Windows开源的命令行工具Terminal来使用，可以直接进入系统  
+![程序和功能](/img/in-post/2020/07-07-terminal.png)  
+
+
+<div style="text-align: center;">- the end -</div>
