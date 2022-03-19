@@ -8,6 +8,7 @@ description: "个人介绍/杂谈"
 keyword: "ahrievil, java"
 url: "http://blog.ahrievil.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
+lovarUrl: "/lovar/lovar.html"
 
 # Publish posts or collection documents with a future date.
 future: true
